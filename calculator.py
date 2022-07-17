@@ -29,38 +29,6 @@ class CalcEntry(Entry):
             value_to_return = float(self.get())
         return value_to_return
 
-    # # Performs addition when "+" button is pressed
-    # def addition(self):
-    #     value = self.return_entry_number()
-    #     self.current_value += value
-    #     self.last_operator = "+"
-    #     print(self.current_value)
-    #     self.clear_entry()
-
-    # # Performs subtraction when "-" button is pressed
-    # def subtraction(self):
-    #     value = self.return_entry_number()
-    #     self.current_value -= value
-    #     self.last_operator = "-"
-    #     print(self.current_value)
-    #     self.clear_entry()
-        
-    # # Performs multiplication when "*" button is pressed
-    # def multiplication(self):
-    #     value = self.return_entry_number()
-    #     self.current_value *= value
-    #     self.last_operator = "*"
-    #     print(self.current_value)
-    #     self.clear_entry()
-
-    # # Performs division when "/" button is pressed
-    # def division(self):
-    #     value = self.return_entry_number()
-    #     self.current_value /= value
-    #     self.last_operator = "/"
-    #     print(self.current_value)
-    #     self.clear_entry()
-
     # Function to perform addition/subtraction/multiplication
     def operation(self, operator):
         value = self.return_entry_number()
