@@ -22,55 +22,64 @@ class CalcEntry(Entry):
     
     # Function to check what value to return from entry box
     def return_entry_number(self):
+        print(self.get())
         if len(self.get()) == 0:
             value_to_return = 0
         else:
             value_to_return = float(self.get())
         return value_to_return
 
-    # Performs addition when "+" button is pressed
-    def addition(self):
-        value = self.return_entry_number()
-        self.current_value += value
-        self.last_operator = "+"
-        print(self.current_value)
-        self.clear_entry()
+    # # Performs addition when "+" button is pressed
+    # def addition(self):
+    #     value = self.return_entry_number()
+    #     self.current_value += value
+    #     self.last_operator = "+"
+    #     print(self.current_value)
+    #     self.clear_entry()
 
-    # Performs subtraction when "-" button is pressed
-    def subtraction(self):
-        value = self.return_entry_number()
-        self.current_value -= value
-        self.last_operator = "-"
-        print(self.current_value)
-        self.clear_entry()
+    # # Performs subtraction when "-" button is pressed
+    # def subtraction(self):
+    #     value = self.return_entry_number()
+    #     self.current_value -= value
+    #     self.last_operator = "-"
+    #     print(self.current_value)
+    #     self.clear_entry()
         
-    # Performs multiplication when "*" button is pressed
-    def multiplication(self):
-        value = self.return_entry_number()
-        self.current_value *= value
-        self.last_operator = "*"
-        print(self.current_value)
-        self.clear_entry()
+    # # Performs multiplication when "*" button is pressed
+    # def multiplication(self):
+    #     value = self.return_entry_number()
+    #     self.current_value *= value
+    #     self.last_operator = "*"
+    #     print(self.current_value)
+    #     self.clear_entry()
 
-    # Performs division when "/" button is pressed
-    def division(self):
-        value = self.return_entry_number()
-        self.current_value /= value
-        self.last_operator = "/"
-        print(self.current_value)
-        self.clear_entry()
+    # # Performs division when "/" button is pressed
+    # def division(self):
+    #     value = self.return_entry_number()
+    #     self.current_value /= value
+    #     self.last_operator = "/"
+    #     print(self.current_value)
+    #     self.clear_entry()
 
+    # Function to perform addition/subtraction/multiplication
+    def operation(self, operator):
+        value = self.return_entry_number()
+        if self.current_value == None:
+            self.current_value = value
+        else:
+            if operator == "+":
+                self.current_value += value
+            elif operator == "-":
+                self.current_value -= value
+            elif operator == "*":
+                self.current_value *= value
+            elif operator == "/":
+                self.current_value /= value
+        self.last_operator = operator
+        self.clear_entry()
     # Performs calculations when equal button is pressed
     def calculate(self):
-        if self.last_operator == "+":
-            self.addition()
-        elif self.last_operator == "-":
-            self.subtraction()
-        elif self.last_operator == "*":
-            self.multiplication()
-        elif self.last_operator == "/":
-            self.division()
-        print(self.current_value)
+        self.operation(self.last_operator)
         self.insert(0, self.current_value)
         self.current_value = None
         self.value_totalled = True
@@ -102,10 +111,10 @@ button_9 = Button(root, text="9", padx=40, pady=20, command=lambda: entry.enter_
 button_0 = Button(root, text="0", padx=40, pady=20, command=lambda: entry.enter_numbers(0))
 
 # Creates buttons holding calculation functions and clear function
-button_add = Button(root, text="+", padx=39, pady=20, command=entry.addition)
-button_subtract = Button(root, text="-", padx=39, pady=20, command=entry.subtraction)
-button_multiply = Button(root, text="*", padx=39, pady=20, command=entry.multiplication)
-button_divide = Button(root, text="/", padx=39, pady=20, command=entry.division)
+button_add = Button(root, text="+", padx=39, pady=20, command=lambda: entry.operation("+"))
+button_subtract = Button(root, text="-", padx=39, pady=20, command=lambda: entry.operation("-"))
+button_multiply = Button(root, text="*", padx=39, pady=20, command=lambda: entry.operation("*"))
+button_divide = Button(root, text="/", padx=39, pady=20, command=lambda: entry.operation("/"))
 button_equal = Button(root, text="=", padx=39, pady=20, command=entry.calculate)
 button_clear = Button(root, text="Clear", padx=79, pady=20, command=entry.clear_entry)
 
