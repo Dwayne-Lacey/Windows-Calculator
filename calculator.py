@@ -5,35 +5,75 @@ class CalcEntry(Entry):
     # Entry class variable is where values will be stored for addition
     def __init__(self, *args, **kwargs):
         Entry.__init__(self, *args, **kwargs)
-        self.entry = []
-        self.value_total = False
+        self.last_operator = None
+        self.value_totalled = False
+        self.current_value = None
+
     # Adds numbers to entry box
-    def button_click(self, number):
-        if self.value_total == True:
+    def enter_numbers(self, number):
+        if self.value_totalled == True:
             self.clear_entry()
-            self.value_total = False
+            self.value_totalled = False
         self.insert(END, number)
 
     # Clears entry field
     def clear_entry(self):
         self.delete(0, END)
     
-    # Adds each number to be added into a list
-    def add_click(self):
-        self.entry.append(int(self.get()))
-        print(self.entry)
+    # Function to check what value to return from entry box
+    def return_entry_number(self):
+        if len(self.get()) == 0:
+            value_to_return = 0
+        else:
+            value_to_return = float(self.get())
+        return value_to_return
+
+    # Performs addition when "+" button is pressed
+    def addition(self):
+        value = self.return_entry_number()
+        self.current_value += value
+        self.last_operator = "+"
+        print(self.current_value)
+        self.clear_entry()
+
+    # Performs subtraction when "-" button is pressed
+    def subtraction(self):
+        value = self.return_entry_number()
+        self.current_value -= value
+        self.last_operator = "-"
+        print(self.current_value)
         self.clear_entry()
         
-    # Calculates total of all numbers in list
-    def calculate_list(self):
-        self.add_click()
+    # Performs multiplication when "*" button is pressed
+    def multiplication(self):
+        value = self.return_entry_number()
+        self.current_value *= value
+        self.last_operator = "*"
+        print(self.current_value)
         self.clear_entry()
-        total = 0
-        for num in self.entry:
-            total += num
-        self.insert(0, total)
-        self.value_total = True
-        self.entry = []
+
+    # Performs division when "/" button is pressed
+    def division(self):
+        value = self.return_entry_number()
+        self.current_value /= value
+        self.last_operator = "/"
+        print(self.current_value)
+        self.clear_entry()
+
+    # Performs calculations when equal button is pressed
+    def calculate(self):
+        if self.last_operator == "+":
+            self.addition()
+        elif self.last_operator == "-":
+            self.subtraction()
+        elif self.last_operator == "*":
+            self.multiplication()
+        elif self.last_operator == "/":
+            self.division()
+        print(self.current_value)
+        self.insert(0, self.current_value)
+        self.current_value = None
+        self.value_totalled = True
 
 # Builds main window
 root = Tk()
@@ -42,26 +82,31 @@ root = Tk()
 root.title("Simple Calculator")
 
 # Creates entrybox
-entry = CalcEntry(root, width=45, borderwidth=5)
+entry = CalcEntry(root, width=55, borderwidth=5)
 
 # Places entry box on window
-entry.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
 
 
 
 # Creates number pad buttons
-button_1 = Button(root, text="1", padx=40, pady=20, command=lambda: entry.button_click(1))
-button_2 = Button(root, text="2", padx=40, pady=20, command=lambda: entry.button_click(2))
-button_3 = Button(root, text="3", padx=40, pady=20, command=lambda: entry.button_click(3))
-button_4 = Button(root, text="4", padx=40, pady=20, command=lambda: entry.button_click(4))
-button_5 = Button(root, text="5", padx=40, pady=20, command=lambda: entry.button_click(5))
-button_6 = Button(root, text="6", padx=40, pady=20, command=lambda: entry.button_click(6))
-button_7 = Button(root, text="7", padx=40, pady=20, command=lambda: entry.button_click(7))
-button_8 = Button(root, text="8", padx=40, pady=20, command=lambda: entry.button_click(8))
-button_9 = Button(root, text="9", padx=40, pady=20, command=lambda: entry.button_click(9))
-button_0 = Button(root, text="0", padx=40, pady=20, command=lambda: entry.button_click(0))
-button_add = Button(root, text="+", padx=39, pady=20, command=entry.add_click)
-button_equal = Button(root, text="=", padx=91, pady=20, command=entry.calculate_list)
+button_1 = Button(root, text="1", padx=40, pady=20, command=lambda: entry.enter_numbers(1))
+button_2 = Button(root, text="2", padx=40, pady=20, command=lambda: entry.enter_numbers(2))
+button_3 = Button(root, text="3", padx=40, pady=20, command=lambda: entry.enter_numbers(3))
+button_4 = Button(root, text="4", padx=40, pady=20, command=lambda: entry.enter_numbers(4))
+button_5 = Button(root, text="5", padx=40, pady=20, command=lambda: entry.enter_numbers(5))
+button_6 = Button(root, text="6", padx=40, pady=20, command=lambda: entry.enter_numbers(6))
+button_7 = Button(root, text="7", padx=40, pady=20, command=lambda: entry.enter_numbers(7))
+button_8 = Button(root, text="8", padx=40, pady=20, command=lambda: entry.enter_numbers(8))
+button_9 = Button(root, text="9", padx=40, pady=20, command=lambda: entry.enter_numbers(9))
+button_0 = Button(root, text="0", padx=40, pady=20, command=lambda: entry.enter_numbers(0))
+
+# Creates buttons holding calculation functions and clear function
+button_add = Button(root, text="+", padx=39, pady=20, command=entry.addition)
+button_subtract = Button(root, text="-", padx=39, pady=20, command=entry.subtraction)
+button_multiply = Button(root, text="*", padx=39, pady=20, command=entry.multiplication)
+button_divide = Button(root, text="/", padx=39, pady=20, command=entry.division)
+button_equal = Button(root, text="=", padx=39, pady=20, command=entry.calculate)
 button_clear = Button(root, text="Clear", padx=79, pady=20, command=entry.clear_entry)
 
 # Adds buttons to grid
@@ -79,8 +124,12 @@ button_3.grid(row=3, column=2)
 
 button_0.grid(row=4, column=0)
 button_clear.grid(row=4, column=1, columnspan=2)
-button_add.grid(row=5, column=0)
-button_equal.grid(row=5, column=1, columnspan=2)
+
+button_add.grid(row=1, column=3)
+button_subtract.grid(row=2, column=3)
+button_multiply.grid(row=3, column=3)
+button_divide.grid(row=4, column=3)
+button_equal.grid(row=5, column=3, columnspan=1)
 
 # Maintains application loop until retrieving input to close application
 root.mainloop()
