@@ -23,15 +23,35 @@ class CalcEntry(Entry):
     # Function to check what value to return from entry box
     def return_entry_number(self):
         print(self.get())
+        # Checks if value exists currently within entry box, defaults to 0.00 if value does not exist.
         if len(self.get()) == 0:
-            value_to_return = 0
+            value_to_return = 0.00
         else:
             value_to_return = float(self.get())
         return value_to_return
 
-    # Function to perform addition/subtraction/multiplication
-    def operation(self, operator):
+    # Functions to add: 
+        # Button to clear stored values along with current values in entrybox
+        # 1/X button to return 1/whatever number is entered in. For example 1/4 should return 0.25
+        # X^2 button handle squaring numbers. Example 2^2 should return 4
+        # Sqrt button to get the square root of a number. Example 4 should return 2
+        # Backspace button to remove just the last value in entry box
+
+    # Percent function: Requires number stored in memory and a second number, function multiplies first and second numbers and then divides the result by 100 to get what percent num2 percent of num1
+    # Uses last operator stored to decide if result should be added/subtracted etc. to first number
+    def find_percent(self):
         value = self.return_entry_number()
+        if self.current_value == None:
+            self.clear_entry()
+            self.insert(0, 0)
+        else:
+            percent_value = (value * self.current_value) / 100
+            self.operation(self.last_operator, percent_value)
+            
+    # Function to perform addition/subtraction/multiplication/division
+    def operation(self, operator, value=None):
+        if value == None:
+            value = self.return_entry_number()
         if self.current_value == None:
             self.current_value = value
         else:
@@ -84,6 +104,7 @@ class Calculator:
         button_subtract = Button(self.root, text="-", padx=39, pady=20, command=lambda: self.entry.operation("-"))
         button_multiply = Button(self.root, text="*", padx=39, pady=20, command=lambda: self.entry.operation("*"))
         button_divide = Button(self.root, text="/", padx=39, pady=20, command=lambda: self.entry.operation("/"))
+        button_percent = Button(self.root, text="%", padx=39, pady=20, command=self.entry.find_percent)
         button_equal = Button(self.root, text="=", padx=180, pady=20, command=self.entry.calculate)
         button_clear = Button(self.root, text="Clear", padx=79, pady=20, command=self.entry.clear_entry)
 
@@ -110,6 +131,7 @@ class Calculator:
         button_0.grid(row=4, column=0)
         button_clear.grid(row=4, column=1, columnspan=2)
         button_divide.grid(row=4, column=3)
+        button_percent.grid(row=4, column=4)
 
         # Last row
         button_equal.grid(row=5, column=0, columnspan=4)
