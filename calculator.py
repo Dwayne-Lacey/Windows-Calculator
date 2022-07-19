@@ -31,13 +31,16 @@ class CalcEntry(Entry):
         return value_to_return
 
     # Functions to add: 
-        # Button to clear stored values along with current values in entrybox
         # 1/X button to return 1/whatever number is entered in. For example 1/4 should return 0.25
         # X^2 button handle squaring numbers. Example 2^2 should return 4
         # Sqrt button to get the square root of a number. Example 4 should return 2
         # Backspace button to remove just the last value in entry box
 
-
+    # Backspace button: Deletes only the last number currently entered into the entrybox
+    def backspace(self):
+        num_characters = len(self.get())
+        self.delete(num_characters - 1, END)
+        
     # Clear stored number and current text in entrybox
     def clear_all(self):
         self.clear_entry()
@@ -116,6 +119,7 @@ class Calculator:
         button_equal = Button(self.root, text="=", padx=180, pady=20, command=self.entry.calculate)
         button_clear = Button(self.root, text="CE", padx=79, pady=20, command=self.entry.clear_entry)
         button_clear_all = Button(self.root, text="C", padx=39, pady=20, command=self.entry.clear_all)
+        button_backspace = Button(self.root, text="BKSP", padx=39, pady=20, command=self.entry.backspace)
 
         # Adds buttons to grid
         # First row of buttons after entry box
@@ -142,6 +146,7 @@ class Calculator:
         button_divide.grid(row=4, column=3)
         button_percent.grid(row=4, column=4)
         button_clear_all.grid(row=4, column=5)
+        button_backspace.grid(row=4, column=6)
 
         # Last row
         button_equal.grid(row=5, column=0, columnspan=4)
