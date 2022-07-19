@@ -31,11 +31,12 @@ class CalcEntry(Entry):
         return value_to_return
 
     # Functions to add: 
-        # 1/X button to return 1/whatever number is entered in. For example 1/4 should return 0.25
-        # X^2 button handle squaring numbers. Example 2^2 should return 4
-        # Sqrt button to get the square root of a number. Example 4 should return 2
 
-    # 1/X function: Takes whatever number is passed into X and returns 1 divided by that number
+    # Square Root function: Takes whatever number is passed into X and returns the square root of X. Example 4 should return 2
+    # Can be executed with or without number stored in memory
+
+
+    # 1/X function: Takes whatever number is passed into X and returns 1 divided by that number. Example 4 should return .25
     # Can be executed with or without number stored in memory
     def fraction(self):
         value = self.return_entry_number()
@@ -50,7 +51,19 @@ class CalcEntry(Entry):
                 self.clear_entry()
                 self.insert(0, value)
         self.value_totalled = True
-        
+    
+    # Exponent function: Takes whatever number is passed into X and returns that number squared. Example 2 should return 4
+    # Can be executed with or without number stored in memory
+    def exponent(self):
+        value = self.return_entry_number()
+        value = value * value
+        if self.current_value != None:
+            self.operation(value)
+        else:
+            self.clear_entry()
+            self.insert(0, value)
+        self.value_totalled = True
+    
     # Backspace button: Deletes only the last number currently entered into the entrybox
     def backspace(self):
         num_characters = len(self.get())
@@ -136,6 +149,7 @@ class Calculator:
         button_clear_all = Button(self.root, text="C", padx=39, pady=20, command=self.entry.clear_all)
         button_backspace = Button(self.root, text="BKSP", padx=39, pady=20, command=self.entry.backspace)
         button_fraction = Button(self.root, text="1/X", padx=39, pady=20, command=self.entry.fraction)
+        button_exponent = Button(self.root, text="x^2", padx=39, pady=20, command=self.entry.exponent)
 
         # Adds buttons to grid
         # First row of buttons after entry box
@@ -149,6 +163,7 @@ class Calculator:
         button_5.grid(row=2, column=1)
         button_6.grid(row=2, column=2)
         button_subtract.grid(row=2, column=3)
+        button_exponent.grid(row=2, column=4)
 
         # Third row of buttons
         button_1.grid(row=3, column=0)
