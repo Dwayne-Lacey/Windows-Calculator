@@ -10,6 +10,9 @@ class CalcEntry(Entry):
         self.value_totalled = False
         self.current_value = None
 
+
+
+# Standard commands for normal number entry, calculations, and field clearing
     # Adds numbers to entry box
     def enter_numbers(self, number):
         if self.value_totalled == True:
@@ -17,6 +20,70 @@ class CalcEntry(Entry):
             self.value_totalled = False
         self.insert(END, number)
 
+    # Clears entry field
+    def clear_entry(self):
+        self.delete(0, END)
+        
+    # Clear stored number and current text in entrybox
+    def clear_all(self):
+        self.clear_entry()
+        self.value_totalled = False
+        self.current_value = None
+        self.last_operator = None
+
+    # Backspace button: Deletes only the last number currently entered into the entrybox
+    def backspace(self):
+        num_characters = len(self.get())
+        self.delete(num_characters - 1, END)
+
+    # Function to perform addition/subtraction/multiplication/division
+    def operation(self, operator, value=None):
+        if value == None:
+            value = self.return_entry_number()
+        if self.current_value == None:
+            self.current_value = value
+        else:
+            if operator == "+":
+                self.current_value += value
+            elif operator == "-":
+                self.current_value -= value
+            elif operator == "*":
+                self.current_value *= value
+            elif operator == "/":
+                self.current_value /= value
+        self.last_operator = operator
+        self.clear_entry()
+
+    # Performs calculations when equal button is pressed
+    def calculate(self):
+        self.operation(self.last_operator)
+        self.current_value = self.check_num_type(self.current_value)
+        self.insert(0, self.current_value)
+        self.current_value = None
+        self.value_totalled = True
+
+    # Function to check what value to return from entry box
+    def return_entry_number(self):
+        print(self.get())
+        # Checks if value exists currently within entry box, defaults to 0 if value does not exist.
+        if len(self.get()) == 0:
+            value_to_return = 0
+        else:
+            value_to_return = self.check_num_type(self.get())
+        return value_to_return
+
+    # Checks if value is a float or an integer and returns value as corresponding type
+    def check_num_type(self, value):
+        if float(value) // 1 == float(value):
+            split_float = self.get().split('.')
+            value_to_return = int(split_float[0])
+        else:
+            value_to_return = float(value)
+        return value_to_return
+
+
+
+# Specialized functions to alter inputs or use special calculations on a value
     # Pos/Neg Input: Converts existing input in entry box from negative to positive or positive to negative
     def pos_neg(self):
         if self.get()[0] == '-':
@@ -28,20 +95,6 @@ class CalcEntry(Entry):
     def add_decimal(self):
         if self.get().count('.') < 1:
             self.insert(END, '.')
-
-    # Clears entry field
-    def clear_entry(self):
-        self.delete(0, END)
-    
-    # Function to check what value to return from entry box
-    def return_entry_number(self):
-        print(self.get())
-        # Checks if value exists currently within entry box, defaults to 0.00 if value does not exist.
-        if len(self.get()) == 0:
-            value_to_return = 0.00
-        else:
-            value_to_return = float(self.get())
-        return value_to_return
 
     # Square Root function: Takes whatever number is passed into X and returns the square root of X. Example 4 should return 2
     # Can be executed with or without number stored in memory
@@ -86,18 +139,6 @@ class CalcEntry(Entry):
             self.clear_entry()
             self.insert(0, value)
         self.value_totalled = True
-    
-    # Backspace button: Deletes only the last number currently entered into the entrybox
-    def backspace(self):
-        num_characters = len(self.get())
-        self.delete(num_characters - 1, END)
-        
-    # Clear stored number and current text in entrybox
-    def clear_all(self):
-        self.clear_entry()
-        self.value_totalled = False
-        self.current_value = None
-        self.last_operator = None
 
     # Percent function: Requires number stored in memory and a second number, function multiplies first and second numbers and then divides the result by 100 to get what percent num2 percent of num1
     # Uses last operator stored to decide if result should be added/subtracted etc. to first number
@@ -110,30 +151,7 @@ class CalcEntry(Entry):
             percent_value = (value * self.current_value) / 100
             self.operation(self.last_operator, percent_value)
             
-    # Function to perform addition/subtraction/multiplication/division
-    def operation(self, operator, value=None):
-        if value == None:
-            value = self.return_entry_number()
-        if self.current_value == None:
-            self.current_value = value
-        else:
-            if operator == "+":
-                self.current_value += value
-            elif operator == "-":
-                self.current_value -= value
-            elif operator == "*":
-                self.current_value *= value
-            elif operator == "/":
-                self.current_value /= value
-        self.last_operator = operator
-        self.clear_entry()
 
-    # Performs calculations when equal button is pressed
-    def calculate(self):
-        self.operation(self.last_operator)
-        self.insert(0, self.current_value)
-        self.current_value = None
-        self.value_totalled = True
 
 class Calculator:
     def __init__(self):
