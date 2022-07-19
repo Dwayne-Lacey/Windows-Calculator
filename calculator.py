@@ -17,6 +17,18 @@ class CalcEntry(Entry):
             self.value_totalled = False
         self.insert(END, number)
 
+    # Pos/Neg Input: Converts existing input in entry box from negative to positive or positive to negative
+    def pos_neg(self):
+        if self.get()[0] == '-':
+            self.deleted(0, 1)
+        else:
+            self.insert(0, '-')
+
+    # Decimal Input: Inputs a decimal point. Limit of only 1 decimal point
+    def add_decimal(self):
+        if self.get().count('.') < 1:
+            self.insert(END, '.')
+
     # Clears entry field
     def clear_entry(self):
         self.delete(0, END)
@@ -30,10 +42,6 @@ class CalcEntry(Entry):
         else:
             value_to_return = float(self.get())
         return value_to_return
-
-    # Functions to add: 
-    # Decimal Input: Inputs a decimal point. Limit of only 1 decimal point
-    # Pos/Neg Input: Converts existing input in entry box from negative to positive or positive to negative
 
     # Square Root function: Takes whatever number is passed into X and returns the square root of X. Example 4 should return 2
     # Can be executed with or without number stored in memory
@@ -166,6 +174,8 @@ class Calculator:
         button_fraction = Button(self.root, text="1/X", padx=39, pady=20, command=self.entry.fraction)
         button_exponent = Button(self.root, text="x^2", padx=39, pady=20, command=self.entry.exponent)
         button_square_root = Button(self.root, text="√x", padx=39, pady=20, command=self.entry.square_root)
+        button_pos_neg = Button(self.root, text="+/-", padx=39, pady=20, command=self.entry.pos_neg)
+        button_decimal = Button(self.root, text=".", padx=39, pady=20, command=self.entry.add_decimal)
 
         # Adds buttons to grid
         # First row of buttons after entry box
@@ -174,6 +184,7 @@ class Calculator:
         button_9.grid(row=1, column=2)
         button_add.grid(row=1, column=3)
         button_square_root.grid(row=1, column=4)
+        button_pos_neg.grid(row=1, column=5)
 
         # Second row of buttons
         button_4.grid(row=2, column=0)
@@ -181,6 +192,7 @@ class Calculator:
         button_6.grid(row=2, column=2)
         button_subtract.grid(row=2, column=3)
         button_exponent.grid(row=2, column=4)
+        button_decimal.grid(row=2, column=5)
 
         # Third row of buttons
         button_1.grid(row=3, column=0)
