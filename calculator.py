@@ -37,6 +37,14 @@ class CalcEntry(Entry):
         # Sqrt button to get the square root of a number. Example 4 should return 2
         # Backspace button to remove just the last value in entry box
 
+
+    # Clear stored number and current text in entrybox
+    def clear_all(self):
+        self.clear_entry()
+        self.value_totalled = False
+        self.current_value = None
+        self.last_operator = None
+
     # Percent function: Requires number stored in memory and a second number, function multiplies first and second numbers and then divides the result by 100 to get what percent num2 percent of num1
     # Uses last operator stored to decide if result should be added/subtracted etc. to first number
     def find_percent(self):
@@ -106,7 +114,8 @@ class Calculator:
         button_divide = Button(self.root, text="/", padx=39, pady=20, command=lambda: self.entry.operation("/"))
         button_percent = Button(self.root, text="%", padx=39, pady=20, command=self.entry.find_percent)
         button_equal = Button(self.root, text="=", padx=180, pady=20, command=self.entry.calculate)
-        button_clear = Button(self.root, text="Clear", padx=79, pady=20, command=self.entry.clear_entry)
+        button_clear = Button(self.root, text="CE", padx=79, pady=20, command=self.entry.clear_entry)
+        button_clear_all = Button(self.root, text="C", padx=39, pady=20, command=self.entry.clear_all)
 
         # Adds buttons to grid
         # First row of buttons after entry box
@@ -132,6 +141,7 @@ class Calculator:
         button_clear.grid(row=4, column=1, columnspan=2)
         button_divide.grid(row=4, column=3)
         button_percent.grid(row=4, column=4)
+        button_clear_all.grid(row=4, column=5)
 
         # Last row
         button_equal.grid(row=5, column=0, columnspan=4)
