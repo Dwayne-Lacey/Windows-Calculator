@@ -90,7 +90,7 @@ class CalcEntry(Entry):
     # Pos/Neg Input: Converts existing input in entry box from negative to positive or positive to negative
     def pos_neg(self):
         if self.get()[0] == '-':
-            self.deleted(0, 1)
+            self.delete(0, 1)
         else:
             self.insert(0, '-')
 
