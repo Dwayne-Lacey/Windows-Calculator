@@ -34,8 +34,23 @@ class CalcEntry(Entry):
         # 1/X button to return 1/whatever number is entered in. For example 1/4 should return 0.25
         # X^2 button handle squaring numbers. Example 2^2 should return 4
         # Sqrt button to get the square root of a number. Example 4 should return 2
-        # Backspace button to remove just the last value in entry box
 
+    # 1/X function: Takes whatever number is passed into X and returns 1 divided by that number
+    # Can be executed with or without number stored in memory
+    def fraction(self):
+        value = self.return_entry_number()
+        if value == 0:
+            self.clear_all()
+            self.insert(0, 0)
+        else:
+            value = 1 / value
+            if self.current_value != None:
+                self.operation(value)
+            else:
+                self.clear_entry()
+                self.insert(0, value)
+        self.value_totalled = True
+        
     # Backspace button: Deletes only the last number currently entered into the entrybox
     def backspace(self):
         num_characters = len(self.get())
@@ -120,6 +135,7 @@ class Calculator:
         button_clear = Button(self.root, text="CE", padx=79, pady=20, command=self.entry.clear_entry)
         button_clear_all = Button(self.root, text="C", padx=39, pady=20, command=self.entry.clear_all)
         button_backspace = Button(self.root, text="BKSP", padx=39, pady=20, command=self.entry.backspace)
+        button_fraction = Button(self.root, text="1/X", padx=39, pady=20, command=self.entry.fraction)
 
         # Adds buttons to grid
         # First row of buttons after entry box
@@ -139,6 +155,7 @@ class Calculator:
         button_2.grid(row=3, column=1)
         button_3.grid(row=3, column=2)
         button_multiply.grid(row=3, column=3)
+        button_fraction.grid(row=3, column=4)
 
         # Fourth row of buttons
         button_0.grid(row=4, column=0)
