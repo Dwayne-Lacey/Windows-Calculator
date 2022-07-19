@@ -1,4 +1,5 @@
 from tkinter import *
+from math import sqrt
 
 class CalcEntry(Entry):
     # Constructs entry box object as part of CalcEntry object, *kwargs allows us to pass as many parameters to the entry box as we would like
@@ -31,10 +32,24 @@ class CalcEntry(Entry):
         return value_to_return
 
     # Functions to add: 
+    # Decimal Input: Inputs a decimal point. Limit of only 1 decimal point
+    # Pos/Neg Input: Converts existing input in entry box from negative to positive or positive to negative
 
     # Square Root function: Takes whatever number is passed into X and returns the square root of X. Example 4 should return 2
     # Can be executed with or without number stored in memory
-
+    def square_root(self):
+        value = self.return_entry_number()
+        if value == 0:
+            self.clear_all()
+            self.insert(0, 0)
+        else:
+            value = sqrt(value)
+            if self.current_value != None:
+                self.operation(value)
+            else:
+                self.clear_entry()
+                self.insert(0, value)
+        self.value_totalled = True
 
     # 1/X function: Takes whatever number is passed into X and returns 1 divided by that number. Example 4 should return .25
     # Can be executed with or without number stored in memory
@@ -56,7 +71,7 @@ class CalcEntry(Entry):
     # Can be executed with or without number stored in memory
     def exponent(self):
         value = self.return_entry_number()
-        value = value * value
+        value = value ** 2
         if self.current_value != None:
             self.operation(value)
         else:
@@ -150,6 +165,7 @@ class Calculator:
         button_backspace = Button(self.root, text="BKSP", padx=39, pady=20, command=self.entry.backspace)
         button_fraction = Button(self.root, text="1/X", padx=39, pady=20, command=self.entry.fraction)
         button_exponent = Button(self.root, text="x^2", padx=39, pady=20, command=self.entry.exponent)
+        button_square_root = Button(self.root, text="√x", padx=39, pady=20, command=self.entry.square_root)
 
         # Adds buttons to grid
         # First row of buttons after entry box
@@ -157,6 +173,7 @@ class Calculator:
         button_8.grid(row=1, column=1)
         button_9.grid(row=1, column=2)
         button_add.grid(row=1, column=3)
+        button_square_root.grid(row=1, column=4)
 
         # Second row of buttons
         button_4.grid(row=2, column=0)
