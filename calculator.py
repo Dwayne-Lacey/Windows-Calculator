@@ -184,55 +184,57 @@ class Calculator:
         button_0 = Button(self.root, text="0", padx=40, pady=20, command=lambda: self.entry.enter_numbers(0))
 
         # Creates buttons holding calculation functions and clear function
-        button_add = Button(self.root, text="+", padx=39, pady=20, command=lambda: self.entry.operation("+"))
-        button_subtract = Button(self.root, text="-", padx=39, pady=20, command=lambda: self.entry.operation("-"))
-        button_multiply = Button(self.root, text="*", padx=39, pady=20, command=lambda: self.entry.operation("*"))
-        button_divide = Button(self.root, text="/", padx=39, pady=20, command=lambda: self.entry.operation("/"))
-        button_percent = Button(self.root, text="%", padx=39, pady=20, command=self.entry.find_percent)
-        button_equal = Button(self.root, text="=", padx=180, pady=20, command=self.entry.calculate)
-        button_clear = Button(self.root, text="CE", padx=79, pady=20, command=self.entry.clear_entry)
-        button_clear_all = Button(self.root, text="C", padx=39, pady=20, command=self.entry.clear_all)
-        button_backspace = Button(self.root, text="BKSP", padx=39, pady=20, command=self.entry.backspace)
-        button_fraction = Button(self.root, text="1/X", padx=39, pady=20, command=self.entry.fraction)
-        button_exponent = Button(self.root, text="x^2", padx=39, pady=20, command=self.entry.exponent)
-        button_square_root = Button(self.root, text="√x", padx=39, pady=20, command=self.entry.square_root)
-        button_pos_neg = Button(self.root, text="+/-", padx=39, pady=20, command=self.entry.pos_neg)
-        button_decimal = Button(self.root, text=".", padx=39, pady=20, command=self.entry.add_decimal)
+        button_add = Button(self.root, text="+", padx=40, pady=20, command=lambda: self.entry.operation("+"))
+        button_subtract = Button(self.root, text="-", padx=40, pady=20, command=lambda: self.entry.operation("-"))
+        button_multiply = Button(self.root, text="*", padx=40, pady=20, command=lambda: self.entry.operation("*"))
+        button_divide = Button(self.root, text="/", padx=40, pady=20, command=lambda: self.entry.operation("/"))
+        button_percent = Button(self.root, text="%", padx=40, pady=20, command=self.entry.find_percent)
+        button_equal = Button(self.root, text="=", padx=40, pady=20, command=self.entry.calculate)
+        button_clear = Button(self.root, text="CE", padx=40, pady=20, command=self.entry.clear_entry)
+        button_clear_all = Button(self.root, text="C", padx=40, pady=20, command=self.entry.clear_all)
+        button_backspace = Button(self.root, text="BKSP", padx=40, pady=20, command=self.entry.backspace)
+        button_fraction = Button(self.root, text="1/X", padx=40, pady=20, command=self.entry.fraction)
+        button_exponent = Button(self.root, text="x^2", padx=40, pady=20, command=self.entry.exponent)
+        button_square_root = Button(self.root, text="√x", padx=40, pady=20, command=self.entry.square_root)
+        button_pos_neg = Button(self.root, text="+/-", padx=40, pady=20, command=self.entry.pos_neg)
+        button_decimal = Button(self.root, text=".", padx=40, pady=20, command=self.entry.add_decimal)
 
         # Adds buttons to grid
-        # First row of buttons after entry box
-        button_7.grid(row=1, column=0)
-        button_8.grid(row=1, column=1)
-        button_9.grid(row=1, column=2)
-        button_add.grid(row=1, column=3)
-        button_square_root.grid(row=1, column=4)
-        button_pos_neg.grid(row=1, column=5)
+        # First row of buttons after entry box - Contains buttons %, CE, C, BKSP
+        button_percent.grid(row=1, column=0)
+        button_clear.grid(row=1, column=1)
+        button_clear_all.grid(row=1, column=2)
+        button_backspace.grid(row=1, column=3)
 
-        # Second row of buttons
-        button_4.grid(row=2, column=0)
-        button_5.grid(row=2, column=1)
-        button_6.grid(row=2, column=2)
-        button_subtract.grid(row=2, column=3)
-        button_exponent.grid(row=2, column=4)
-        button_decimal.grid(row=2, column=5)
+        # Second row of buttons - Contains buttons 1/X, X^2, √x, /
+        button_fraction.grid(row=2, column=0)
+        button_exponent.grid(row=2, column=1)
+        button_square_root.grid(row=2, column=2)
+        button_divide.grid(row=2, column=3)
 
-        # Third row of buttons
-        button_1.grid(row=3, column=0)
-        button_2.grid(row=3, column=1)
-        button_3.grid(row=3, column=2)
+        # Third row of buttons - Contains 7, 8, 9, X
+        button_7.grid(row=3, column=0)
+        button_8.grid(row=3, column=1)
+        button_9.grid(row=3, column=2)
         button_multiply.grid(row=3, column=3)
-        button_fraction.grid(row=3, column=4)
+        
+        # Fourth row of buttons - Contains 4, 5, 6, -
+        button_4.grid(row=4, column=0)
+        button_5.grid(row=4, column=1)
+        button_6.grid(row=4, column=2)
+        button_subtract.grid(row=4, column=3)
 
-        # Fourth row of buttons
-        button_0.grid(row=4, column=0)
-        button_clear.grid(row=4, column=1, columnspan=2)
-        button_divide.grid(row=4, column=3)
-        button_percent.grid(row=4, column=4)
-        button_clear_all.grid(row=4, column=5)
-        button_backspace.grid(row=4, column=6)
+        # Fifth row of buttons - Contains 1, 2, 3, +
+        button_1.grid(row=5, column=0)
+        button_2.grid(row=5, column=1)
+        button_3.grid(row=5, column=2)
+        button_add.grid(row=5, column=3)
 
-        # Last row
-        button_equal.grid(row=5, column=0, columnspan=4)
+        # Final row of buttons - Contains +/-, 0, ., =
+        button_pos_neg.grid(row=6, column=0)
+        button_0.grid(row=6, column=1)
+        button_decimal.grid(row=6, column=2)
+        button_equal.grid(row=6, column=3)
 
         # Maintains application loop until retrieving input to close application
         self.root.mainloop()
