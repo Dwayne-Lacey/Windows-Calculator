@@ -82,6 +82,7 @@ class CalcEntry(Entry):
     def return_entry_number(self):
         self.config(state="normal")
         print(self.get())
+
         # Checks if value exists currently within entry box, defaults to 0 if value does not exist.
         if len(self.get()) == 0:
             value_to_return = 0
@@ -169,23 +170,45 @@ class CalcEntry(Entry):
             
 
 
+class HoverButton(Button):
+    def __init__(self, *args, **kwargs):
+        Button.__init__(self, *args, **kwargs)
+        self.default_bg = self['bg']
+        self.bind("<Enter>", self.on_enter)
+        self.bind("<Leave>", self.on_leave)
+
+    def on_enter(self, e):
+        self['background'] = self['activebackground']
+    
+    def on_leave(self, e):
+        self['background'] = self.default_bg
+
+
+
+
+
+
+
 class Calculator:
     def __init__(self):
+
         # Builds main window
         self.root = Tk()
+        self.root.configure(bg="#1F1F1F")
 
         # Adds title to window
         self.root.title("Calculator")
 
         # Creates entrybox
-        self.entry = CalcEntry(self.root, width=10, borderwidth=5, justify="right", font=('Segoe 40 bold'))
+        self.entry = CalcEntry(self.root, width=10, borderwidth=0, justify="right", font=('Segoe 40 bold'), readonlybackground="#1F1F1F", background="#1F1F1F", fg="White")
+        
 
         # Places entry box on window
         self.entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
 
         # Creates number pad buttons
-        button_1 = Button(self.root, text="1", padx=34, pady=15, command=lambda: self.entry.enter_numbers(1))
-        button_2 = Button(self.root, text="2", padx=34, pady=15, command=lambda: self.entry.enter_numbers(2))
+        button_1 = HoverButton(self.root, activebackground="#4B4B4B", background="#060606", text="1", font=('Segoe 12 bold'), fg="White", padx=34, pady=15, command=lambda: self.entry.enter_numbers(1))
+        button_2 = Button(self.root, text="2", padx=34, pady=15, command=lambda: self.entry.enter_numbers(2),)
         button_3 = Button(self.root, text="3", padx=34, pady=15, command=lambda: self.entry.enter_numbers(3))
         button_4 = Button(self.root, text="4", padx=34, pady=15, command=lambda: self.entry.enter_numbers(4))
         button_5 = Button(self.root, text="5", padx=34, pady=15, command=lambda: self.entry.enter_numbers(5))
