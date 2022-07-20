@@ -173,7 +173,7 @@ class CalcEntry(Entry):
 
 class HoverButton(Button):
     def __init__(self, *args, **kwargs):
-        Button.__init__(self, *args, **kwargs, activebackground="#464646", relief=FLAT, fg="White", activeforeground="White", padx=30, pady=11)
+        Button.__init__(self, *args, **kwargs, activebackground="#464646", relief=FLAT, fg="White", activeforeground="White", padx=30)
         self.hover_bg = "#373737"
         self.default_bg = self['bg']
         self.bind("<Enter>", self.on_enter)
@@ -214,33 +214,33 @@ class Calculator:
         self.entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
 
         # Creates number pad buttons
-        button_1 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="1", command=lambda: self.entry.enter_numbers(1))
-        button_2 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="2", command=lambda: self.entry.enter_numbers(2))
-        button_3 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="3", command=lambda: self.entry.enter_numbers(3))
-        button_4 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="4", command=lambda: self.entry.enter_numbers(4))
-        button_5 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="5", command=lambda: self.entry.enter_numbers(5))
-        button_6 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="6", command=lambda: self.entry.enter_numbers(6))
-        button_7 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="7", command=lambda: self.entry.enter_numbers(7))
-        button_8 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="8", command=lambda: self.entry.enter_numbers(8))
-        button_9 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="9", command=lambda: self.entry.enter_numbers(9))
-        button_0 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="0", command=lambda: self.entry.enter_numbers(0))
+        button_1 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="1", pady=10, command=lambda: self.entry.enter_numbers(1))
+        button_2 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="2", pady=10, command=lambda: self.entry.enter_numbers(2))
+        button_3 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="3", pady=10, command=lambda: self.entry.enter_numbers(3))
+        button_4 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="4", pady=10, command=lambda: self.entry.enter_numbers(4))
+        button_5 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="5", pady=10, command=lambda: self.entry.enter_numbers(5))
+        button_6 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="6", pady=10, command=lambda: self.entry.enter_numbers(6))
+        button_7 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="7", pady=7, command=lambda: self.entry.enter_numbers(7))
+        button_8 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="8", pady=7, command=lambda: self.entry.enter_numbers(8))
+        button_9 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="9", pady=7, command=lambda: self.entry.enter_numbers(9))
+        button_0 = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="0", pady=10, command=lambda: self.entry.enter_numbers(0))
 
         # Creates buttons holding calculation functions and clear function
-        button_add = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="+", command=lambda: self.entry.operation("+"))
-        button_subtract = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="-", command=lambda: self.entry.operation("-"))
-        button_multiply = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="*", command=lambda: self.entry.operation("*"))
-        button_divide = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="/", command=lambda: self.entry.operation("/"))
-        button_percent = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="%", command=self.entry.find_percent)
-        button_equal = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="=", command=self.entry.calculate)
-        button_clear = HoverButton(self.root, background="#131313", font=('Segoe 10'), text="CE", command=self.entry.clear_entry)
-        button_clear_all = HoverButton(self.root, background="#131313", font=('Segoe 10'), text="C", command=self.entry.clear_all)
-        button_backspace = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="BKSP", command=self.entry.backspace)
-        button_fraction = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="1/X", command=lambda: self.entry.special_functions("1/X"))
-        button_exponent = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="x^2", command=lambda: self.entry.special_functions("X^2"))
-        button_square_root = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="√x", command=lambda: self.entry.special_functions("sqrt"))
+        button_add = HoverButton(self.root, background="#131313", font=('Segoe 18'), text="+", pady=10, command=lambda: self.entry.operation("+"))
+        button_subtract = HoverButton(self.root, background="#131313", font=('Segoe 18'), text="−", pady=10, command=lambda: self.entry.operation("-"))
+        button_multiply = HoverButton(self.root, background="#131313", font=('Segoe 20'), text="×", pady=7, command=lambda: self.entry.operation("*"))
+        button_divide = HoverButton(self.root, background="#131313", font=('Segoe 20'), text="÷", pady=7, command=lambda: self.entry.operation("/"))
+        button_percent = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="%", pady=17, command=self.entry.find_percent)
+        button_equal = HoverButton(self.root, background="#31302F", font=('Segoe 18'), text="=", pady=10, command=self.entry.calculate)
+        button_clear = HoverButton(self.root, background="#131313", font=('Segoe 10'), text="CE", pady=17, command=self.entry.clear_entry)
+        button_clear_all = HoverButton(self.root, background="#131313", font=('Segoe 10'), text="C", pady=15, command=self.entry.clear_all)
+        button_backspace = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="⌫", pady=17, command=self.entry.backspace)
+        button_fraction = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="¹/𝑥", pady=7, command=lambda: self.entry.special_functions("1/X"))
+        button_exponent = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="X²", pady=7, command=lambda: self.entry.special_functions("X^2"))
+        button_square_root = HoverButton(self.root, background="#131313", font=('Segoe 12'), text="√x", pady=7, command=lambda: self.entry.special_functions("sqrt"))
 
-        button_pos_neg = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="+/-", command=self.entry.pos_neg)
-        button_decimal = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text=".", command=self.entry.add_decimal)
+        button_pos_neg = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text="+/-", pady=10, command=self.entry.pos_neg)
+        button_decimal = HoverButton(self.root, background="#060606", font=('Segoe 12 bold'), text=".", pady=10, command=self.entry.add_decimal)
 
         # Adds buttons to grid
         # First row of buttons after entry box - Contains buttons %, CE, C, BKSP
