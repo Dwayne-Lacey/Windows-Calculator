@@ -169,8 +169,7 @@ class CalcEntry(Entry):
             percent_value = self.check_num_type((value * self.current_value) / 100)
             self.operation(self.last_operator, percent_value)
             
-
-
+# Modified button to allow button background to change when being hovered over
 class HoverButton(Button):
     def __init__(self, *args, **kwargs):
         Button.__init__(self, *args, **kwargs, activebackground="#464646", relief=FLAT, fg="White", activeforeground="White", padx=30)
@@ -185,12 +184,7 @@ class HoverButton(Button):
     def on_leave(self, e):
         self['background'] = self.default_bg
 
-
-
-
-
-
-
+# Main application
 class Calculator:
     def __init__(self):
 
