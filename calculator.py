@@ -1,3 +1,4 @@
+import os, sys
 from tkinter import *
 from math import sqrt
 
@@ -201,7 +202,9 @@ class Calculator:
         self.root.title("Calculator")
 
         # Icon found at <a target="_blank" href="https://icons8.com/icon/aqWDxhA3yiU1/calculator">Calculator</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-        self.root.iconbitmap =('C:/Users/Dwayne/Downloads/calc.ico')
+        # calc.ico must be saved in same directory as application
+        dirname, filename = os.path.split(os.path.abspath(sys.argv[0]))
+        self.root.iconbitmap(dirname + '\calc.ico')
 
         # Creates entrybox
         self.entry = CalcEntry(self.root, width=10, borderwidth=0, justify="right", font=('Segoe 40 bold'), readonlybackground="#1F1F1F", background="#1F1F1F", fg="White")
