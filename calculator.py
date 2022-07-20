@@ -9,32 +9,40 @@ class CalcEntry(Entry):
         self.last_operator = None
         self.value_totalled = False
         self.current_value = None
-
-
+        self.config(state="readonly")
 
 # Standard commands for normal number entry, calculations, and field clearing
     # Adds numbers to entry box
     def enter_numbers(self, number):
+        self.config(state="normal")
         if self.value_totalled == True:
             self.clear_entry()
+            self.config(state="normal")
             self.value_totalled = False
         self.insert(END, number)
+        self.config(state="readonly")
 
     # Clears entry field
     def clear_entry(self):
+        self.config(state="normal")
         self.delete(0, END)
+        self.config(state="readonly")
         
     # Clear stored number and current text in entrybox
     def clear_all(self):
+        self.config(state="normal")
         self.clear_entry()
         self.value_totalled = False
         self.current_value = None
         self.last_operator = None
+        self.config(state="readonly")
 
     # Backspace button: Deletes only the last number currently entered into the entrybox
     def backspace(self):
+        self.config(state="normal")
         num_characters = len(self.get())
         self.delete(num_characters - 1, END)
+        self.config(state="readonly")
 
     # Function to perform addition/subtraction/multiplication/division
     def operation(self, operator, value=None):
@@ -50,30 +58,41 @@ class CalcEntry(Entry):
             elif operator == "*":
                 self.current_value *= value
             elif operator == "/":
-                self.current_value /= value
+                if value != 0:
+                    self.current_value /= value
+                else:
+                    print("ZeroDivisionError: Stored value reset to 0")
+                    self.current_value = 0
         self.last_operator = operator
+        self.config(state="normal")
         self.clear_entry()
+        self.config(state="readonly")
 
     # Performs calculations when equal button is pressed
     def calculate(self):
         self.operation(self.last_operator)
         self.current_value = self.check_num_type(self.current_value)
+        self.config(state="normal")
         self.insert(0, self.current_value)
         self.current_value = None
         self.value_totalled = True
+        self.config(state="readonly")
 
     # Function to check what value to return from entry box
     def return_entry_number(self):
+        self.config(state="normal")
         print(self.get())
         # Checks if value exists currently within entry box, defaults to 0 if value does not exist.
         if len(self.get()) == 0:
             value_to_return = 0
         else:
             value_to_return = self.check_num_type(self.get())
+        self.config(state="readonly")
         return value_to_return
 
     # Checks if value is a float or an integer and returns value as corresponding type
     def check_num_type(self, value):
+        self.config(state="normal")
         if float(value) // 1 == float(value):
             if self.get().count('.') > 0:
                 split_float = self.get().split('.')
@@ -82,6 +101,7 @@ class CalcEntry(Entry):
                 value_to_return = int(value)
         else:
             value_to_return = float(value)
+        self.config(state="readonly")
         return value_to_return
 
 
@@ -89,65 +109,57 @@ class CalcEntry(Entry):
 # Specialized functions to alter inputs or use special calculations on a value
     # Pos/Neg Input: Converts existing input in entry box from negative to positive or positive to negative
     def pos_neg(self):
+        self.config(state="normal")
         if self.get()[0] == '-':
             self.delete(0, 1)
         else:
             self.insert(0, '-')
+        self.config(state="readonly")
 
     # Decimal Input: Inputs a decimal point. Limit of only 1 decimal point
     def add_decimal(self):
+        self.config(state="normal")
         if self.get().count('.') < 1:
             self.insert(END, '.')
             self.value_totalled = False
+        self.config(state="readonly")
 
-    # Square Root function: Takes whatever number is passed into X and returns the square root of X. Example 4 should return 2
+    # Special functions performing immediate calculations with only one number minimum
     # Can be executed with or without number stored in memory
-    def square_root(self):
+    def special_functions(self, function):
         value = self.return_entry_number()
+        self.config(state="normal")
         if value == 0:
             self.clear_all()
             self.insert(0, 0)
         else:
-            value = self.check_num_type(sqrt(value))
-            if self.current_value != None:
-                self.operation(value)
-            else:
-                self.clear_entry()
-                self.insert(0, value)
-        self.value_totalled = True
 
-    # 1/X function: Takes whatever number is passed into X and returns 1 divided by that number. Example 4 should return .25
-    # Can be executed with or without number stored in memory
-    def fraction(self):
-        value = self.return_entry_number()
-        if value == 0:
-            self.clear_all()
-            self.insert(0, 0)
-        else:
-            value = self.check_num_type(1 / value)
+            # Executes the desired function based on input from button
+            # Functions possible are Fraction 1/X, Exponent x^2, and Square Root  
+            if function == "1/X":
+                value = self.check_num_type(1 / value)
+            elif function == "X^2":
+                value = self.check_num_type(value ** 2)
+            elif function == "sqrt":
+                value = self.check_num_type(sqrt(value))
+            
+            # Checks to see if there's currently a stored value and performs calculation based on last operator clicked and new value from special function
             if self.current_value != None:
                 self.operation(value)
+            
+            # If there isn't a stored value to perform a calculation on, return result of calculation to entry box
             else:
                 self.clear_entry()
+                self.config(state="normal")
                 self.insert(0, value)
         self.value_totalled = True
-    
-    # Exponent function: Takes whatever number is passed into X and returns that number squared. Example 2 should return 4
-    # Can be executed with or without number stored in memory
-    def exponent(self):
-        value = self.return_entry_number()
-        value = self.check_num_type(value ** 2)
-        if self.current_value != None:
-            self.operation(value)
-        else:
-            self.clear_entry()
-            self.insert(0, value)
-        self.value_totalled = True
+        self.config(state="readonly")
 
     # Percent function: Requires number stored in memory and a second number, function multiplies first and second numbers and then divides the result by 100 to get what percent num2 percent of num1
     # Uses last operator stored to decide if result should be added/subtracted etc. to first number
     def find_percent(self):
         value = self.return_entry_number()
+        self.config(state="normal")
         if self.current_value == None:
             self.clear_entry()
             self.insert(0, 0)
@@ -163,7 +175,7 @@ class Calculator:
         self.root = Tk()
 
         # Adds title to window
-        self.root.title("Simple Calculator")
+        self.root.title("Calculator")
 
         # Creates entrybox
         self.entry = CalcEntry(self.root, width=10, borderwidth=5, justify="right", font=('Segoe 40 bold'))
@@ -193,9 +205,9 @@ class Calculator:
         button_clear = Button(self.root, text="CE", padx=34, pady=15, command=self.entry.clear_entry)
         button_clear_all = Button(self.root, text="C", padx=34, pady=15, command=self.entry.clear_all)
         button_backspace = Button(self.root, text="BKSP", padx=34, pady=15, command=self.entry.backspace)
-        button_fraction = Button(self.root, text="1/X", padx=34, pady=15, command=self.entry.fraction)
-        button_exponent = Button(self.root, text="x^2", padx=34, pady=15, command=self.entry.exponent)
-        button_square_root = Button(self.root, text="√x", padx=34, pady=15, command=self.entry.square_root)
+        button_fraction = Button(self.root, text="1/X", padx=34, pady=15, command=lambda: self.entry.special_functions("1/X"))
+        button_exponent = Button(self.root, text="x^2", padx=34, pady=15, command=lambda: self.entry.special_functions("X^2"))
+        button_square_root = Button(self.root, text="√x", padx=34, pady=15, command=lambda: self.entry.special_functions("sqrt"))
         button_pos_neg = Button(self.root, text="+/-", padx=34, pady=15, command=self.entry.pos_neg)
         button_decimal = Button(self.root, text=".", padx=34, pady=15, command=self.entry.add_decimal)
 
